@@ -12,7 +12,7 @@ A robust FastAPI-based application for managing user registrations across multip
 
 ## Tech Stack
 
-- **Python 3.x**
+- **Python 3.13**
 - **FastAPI**
 - **MongoDB** (pymongo)
 
