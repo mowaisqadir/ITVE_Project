@@ -32,13 +32,6 @@ except ConnectionFailure as e:
 # ==================== Password Hashing ====================
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# def hash_password(password: str) -> str:
-#     """Password ko hash karta hai - 72 bytes limit ke sath"""
-#     # Bcrypt ki 72 bytes limit ke liye password truncate karna
-#     if len(password.encode('utf-8')) > 72:
-#         password = password[:72]
-#     return pwd_context.hash(password)
-
 def hash_password(password: str) -> str:
     sha256_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
     return pwd_context.hash(sha256_hash)
@@ -51,8 +44,6 @@ class AdminSignup(BaseModel):
     password: str = Field(..., min_length=8, max_length=72)
     phone: str = Field(..., pattern=r'^\+92 \d{11}$')
     name: str = Field(..., min_length=2, max_length=100)
-    # user_type: Literal["admin", "student", "school/college", "promoter"] = "admin"
-    # is_active: Literal[True, False] = True
     admin_code: str  # Special admin verification code
     
     @field_validator('phone')
@@ -105,8 +96,6 @@ class SchoolCollegeSignup(BaseModel):
     password: str = Field(..., min_length=8, max_length=72)
     phone: str = Field(..., pattern=r'^\+92 \d{11}$')
     institute_name: str = Field(..., min_length=2, max_length=200)
-    # user_type: Literal["admin", "student", "school/college", "promoter"] = "school/college"
-    # is_active: Literal[True, False] = True
     address: str = Field(..., min_length=5)
     head_of_institute: Optional[str] = None
     
@@ -124,8 +113,6 @@ class SchoolCollegeSignup(BaseModel):
                 "password": "school123",
                 "phone": "+92 12345678910",
                 "institute_name": "XYZ College",
-                # "user_type": "school/college",
-                # "is_active": True,
                 "address": "Karachi, Pakistan",
                 "head_of_institute": "Dr. Principal Name"
             }
@@ -137,8 +124,6 @@ class PromoterSignup(BaseModel):
     password: str = Field(..., min_length=8, max_length=72)
     phone: str = Field(..., pattern=r'^\+92 \d{11}$')
     name: str = Field(..., min_length=2, max_length=100)
-    # user_type: Literal["admin", "student", "school/college", "promoter"] = "promoter"
-    # is_active: Literal[True, False] = True
     
     @field_validator('phone')
     @classmethod
@@ -153,9 +138,7 @@ class PromoterSignup(BaseModel):
                 "email": "promoter@example.com",
                 "password": "promoter123",
                 "phone": "+92 12345678910",
-                "name": "Promoter Name",
-                # "user_type": "promoter",
-                # "is_active": True
+                "name": "Promoter Name"
             }
         }
 
